@@ -1,0 +1,38 @@
+{
+  "coverPhotoResolutions": [{
+    "height": 150,
+    "width": 399,
+    "prefix": "sm"
+  }, {
+    "height": 360,
+    "width": 640,
+    "prefix": "md"
+  }, {
+    "height": 312,
+    "width": 820,
+    "prefix": "lg"
+  }, {
+    "height": 456,
+    "width": 1920,
+    "prefix": "xlg"
+  }],
+
+  "photosResolutions": [{
+    "height": 192,
+    "width": 256,
+    "prefix": "sm"
+  }, {
+    "height": 384,
+    "width": 512,
+    "prefix": "md"
+  }, {
+    "height": 768,
+    "width": 1024,
+    "prefix": "lg"
+  }, {
+    "height": 1080,
+    "width": 1920,
+    "prefix": "xlg"
+  }]
+
+}

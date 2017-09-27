@@ -1,0 +1,28 @@
+
+ 
+  
+  <div class="container" ng-controller="imageUploadController">
+      <div class="row">
+        <div class="col col-12 col-8 mx-auto ">
+          <div class="jumbotron">
+            <div class="my-4 d-flex justify-content-center">
+              <h1 class="display-3">Hello, world!</h1>
+            </div>
+            <form>
+              <div class="form-group">
+                <div class="my-4 d-flex justify-content-center">
+                  <button ngf-select="startUpload($files)" ng-model='ViewModel.photo' multiple accept="image/*" >Select Files</button>
+                </div>
+                <div class="my-4 d-flex justify-content-center">
+                  <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#" ng-click='submit()' role="button">Upload</a>
+                    <a class="btn btn-primary btn-lg" href="{{url}}" role="button">Download</a>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div> 
+    </div>
+

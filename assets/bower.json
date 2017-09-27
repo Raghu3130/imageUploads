@@ -1,0 +1,25 @@
+{
+  "name": "sails-starter",
+  "description": "a Sails application",
+  "main": "app.js",
+  "authors": [
+    "Bansi"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.32",
+    "ng-file-upload": "^12.2.13",
+  },
+  "resolutions": {
+    "jquery": "~2",
+    "angular": "~1.3.0"
+  }
+}
