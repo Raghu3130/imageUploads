@@ -1,10 +1,11 @@
 var q = require('q');
-var gm = require('gm'); // Working on Local
+var gm = require('gm').subClass({ imageMagick: true });; // Working on Local
 var path = require('path');
 var AWS = require('aws-sdk');
 var mime = require('mime');
 var json2csv = require('json2csv');
 var fs = require('fs');
+ var moment = require('moment');
 AWS.config.loadFromPath('config/aws_config.json');
 var s3bucket = new AWS.S3({ params: { Bucket: 'images' } });
 
@@ -23,6 +24,7 @@ function DbService() {
 
 
   function jsontoExcel(export_data) {
+    var deferred = q.defer();
     var dataArray=[];
     export_data.path.forEach(function(data,index){
       var t={
@@ -45,20 +47,74 @@ function DbService() {
     var filename = randomString(5);
 
     var csv = json2csv({ data: dataArray, fields: export_fields });
-    console.log(csv);
-    fs.writeFile('.tmp/public/uploads/' + filename + '.csv', csv, function (err) {
-      if (err) {
+    // console.log(csv);
+    // fs.writeFile('.tmp/public/uploads/' + filename + '.csv', csv, function (err) {
+    //   if (err) {
 
-        throw err;
-      }
-    });
-    var filepath =  filename + '.csv';
-    var file={};
-    file.name=filepath;
-    file.path=path.resolve(sails.config.appPath, '.tmp/public')+"/uploads/"  + filepath;
-    _uploadDocToAWS(file);
-    var r='https://s3.ap-south-1.amazonaws.com/raghu-upload/uploads/'+filepath;
-    return r;
+    //     throw err;
+    //   }
+    // });
+    // var filepath =  filename + '.csv';
+    // var file={};
+    // file.name=filepath;
+    // file.path=path.resolve(sails.config.appPath, '.tmp/public')+"/uploads/"  + filepath;
+    // _uploadDocToAWS(file);
+    // var r='https://s3.ap-south-1.amazonaws.com/raghu-upload/uploads/'+filepath;
+    // return r;
+    //   csv = json2csv({ data: export_data, fields: export_fields });
+
+                fs.writeFile('users_export.csv', csv, function(err) {
+                  if (err) {
+                    throw err;
+                  }
+
+                  var stdout = fs.createReadStream('users_export.csv');
+                  var buf = new Buffer('');
+
+                  stdout.on('data', function(data) {
+                         buf = Buffer.concat([buf, data]);
+                  });
+
+                  var file_name = moment.utc().valueOf() + ".csv";//utc timestamp
+
+                  stdout.on('end', function(data) {
+
+                    var param = {
+                        Bucket: "raghu-upload",
+                        Key:  "uploads/"+file_name,
+                        Body: buf,
+                        ACL: 'public-read',
+                        ContentType: mime.getType(file_name)
+                    };
+                    // console.log("inside stdout");
+                    s3bucket.putObject(param, function(err, data) {
+                          if(err) {
+                              console.log(err);
+                          }
+                          else {
+                              console.log(data);
+                              var murl = "https://s3.ap-south-1.amazonaws.com/raghu-upload/uploads/" + file_name;
+                              try {
+                                  //--sendNotification
+                                  deferred.resolve(murl);
+                                  //-------------------------------------------------
+                              }
+                              catch(err) {
+                                  console.log("ERROR: ",err);
+                              }
+
+
+                              deferred.resolve(murl);
+                          }
+                    });
+                });
+                  console.log('file saved');
+                });
+            
+
+            // return res.jsonp({data: resp,length: resp.length});
+            return deferred.promise;
+        
   }
 
 
@@ -136,7 +192,7 @@ function DbService() {
               Key:data.modelName+'/'+data.uploadFileName,
               ACL: 'public-read',
               Body: buf,
-              ContentType: mime.lookup(data.uploadFileName)
+              ContentType: mime.getType(data.uploadFileName)
             };
             
             s3bucket.putObject(data1, function(err, rese) {
@@ -164,7 +220,6 @@ function DbService() {
     var failureCount = 0;
     
       gm(data.path)
-        .noProfile()
         .stream(function(err, stdout, stderr) {
           var buf = new Buffer('');
           stdout.on('data', function(data) {
@@ -176,9 +231,9 @@ function DbService() {
               Key:"uploads/"+data.name,
               ACL: 'public-read',
               Body: buf,
-              ContentType: mime.lookup(data.name)
+              ContentType: mime.getType(data.name)
             };
-            console.log(data1);
+            console.log("documents",data1);
             s3bucket.putObject(data1, function(err, rese) {
               console.log(rese);
               if (!err) {
