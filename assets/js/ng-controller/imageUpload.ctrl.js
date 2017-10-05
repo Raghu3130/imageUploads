@@ -45,7 +45,7 @@
       for (var i = 0; i < photos.length; i++) {
 
         Upload.upload({
-            url: 'http://localhost:1338/upload',
+            url: 'http://localhost:1337/upload',
             data: { file: photos[i] }
           })
           .then(function(res) {
@@ -99,7 +99,7 @@
         //   ViewModel.photoDetail.path = ViewModel.paths;
         // }
 
-        $http.post('http://localhost:1338/submit',ViewModel.photoDetail).then(function(response){
+        $http.post('http://localhost:1337/submit',ViewModel.photoDetail).then(function(response){
           $scope.url=response.data;
           if(response.data){
             $scope.active=false;
