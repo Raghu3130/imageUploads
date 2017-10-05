@@ -43,7 +43,10 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  'GET /': 'Upload.index',
+  'GET /': 'Customer.login',
+  'POST /signin': 'Customer.signin',
+  'GET /logout':'Customer.logout',
+  'GET /upload-image': 'Upload.index',
   //'GET /products/category': 'Products.category',
   
   'POST /upload':'Upload.uploadFiles',

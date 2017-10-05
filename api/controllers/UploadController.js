@@ -8,7 +8,7 @@
 module.exports = {
 	uploadFiles: function (req, res) {
   
-      console.log("dfd");
+      
     file = req.file('file');
 
 
@@ -47,12 +47,13 @@ module.exports = {
     .catch(function(err){
       console.log(err);
     });
-
   },
   index:function(req,res){
-    console.log("err");
-
-   return res.view('index');
+    if(req.session.Customer){
+      return res.view('index');
+    }else{
+      return res.redirect("/");;
+    }
   }
 };
 

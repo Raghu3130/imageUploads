@@ -1,5 +1,7 @@
 
- 
+ <form method="GET" action="/logout">
+   <button type="submit">Logout </button>
+ </form>
   
   <div class="container" ng-controller="imageUploadController">
       <div class="row">
@@ -16,7 +18,10 @@
                 <div class="my-4 d-flex justify-content-center">
                   <p class="lead">
                     <a class="btn btn-primary btn-lg" href="#" ng-click='submit()' role="button">Upload</a>
-                    <a class="btn btn-primary btn-lg" href="{{url}}" role="button">Download</a>
+                    
+                    <button type="submit" ng-if="url" ng-click="csvSubmit(url);" class="btn btn-primary btn-lg"  role="button">Download</button>
+                    <button type="submit" ng-if="!url" disabled="" class="btn btn-primary btn-lg"  role="button">Download</button>
+                    
                   </p>
                 </div>
               </div>

@@ -12,9 +12,8 @@
     };
     
     ViewModel.paths = [];
-  
-    console.log(ViewModel.paths);
 
+    $scope.active=true;
 
     //   function initWatch() {
     //   $scope.$watch('ViewModel.photo', function() {
@@ -46,7 +45,7 @@
       for (var i = 0; i < photos.length; i++) {
 
         Upload.upload({
-            url: 'http://localhost:1337/upload',
+            url: 'http://localhost:1338/upload',
             data: { file: photos[i] }
           })
           .then(function(res) {
@@ -100,8 +99,12 @@
         //   ViewModel.photoDetail.path = ViewModel.paths;
         // }
 
-        $http.post('http://localhost:1337/submit',ViewModel.photoDetail).then(function(response){
+        $http.post('http://localhost:1338/submit',ViewModel.photoDetail).then(function(response){
           $scope.url=response.data;
+          if(response.data){
+            $scope.active=false;
+            toastr.success("Download Excel");
+          }
         }).catch(function(err){
 
          });
@@ -111,6 +114,9 @@
       }
 
 
+    }
+    $scope.csvSubmit=function(url){
+      window.location.href=url;
     }
 }]);
 })(); // IIFE
