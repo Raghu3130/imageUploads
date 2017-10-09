@@ -11,6 +11,7 @@ module.exports = {
 	},
 	signin:function(req,res){
 		var allParams=req.allParams();
+		console.log(allParams);
 		if(allParams.username=="Aman" && allParams.password=="123456"){
 			req.session.Customer="Aman";
 			return res.redirect("/upload-image")

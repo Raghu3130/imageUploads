@@ -40,30 +40,24 @@
     function startUpload(photos) {
       console.log(photos.length);
       ViewModel.photoUploadInProgress = true;
-
+      var tran={};
 
       for (var i = 0; i < photos.length; i++) {
-
         Upload.upload({
             url: 'http://localhost:1337/upload',
             data: { file: photos[i] }
           })
           .then(function(res) {
-            console.log("res:", res);
-            ViewModel.url="https://deliverydon-dev.s3-ap-southeast-1.amazonaws.com/catalog/xs_"+res.data.imagePath;
-            
-            // console.log('File uploaded successfully', res.data.data[0].fd);
-            // path_array = (res.data.data[0].fd).split('/');
-            // = path_array[7] + '/' + path_array[8] || ""
-            ViewModel.paths.push({ path: res.data.data });
+            console.log(res);
+            ViewModel.paths.push({ path: res.data.data.path,
+            name:res.data.data.name });
             
           })
           .catch(function(err) {
 
-          })
-          .finally(function() {
-            ViewModel.photoUploadInProgress = false;
           });
+          
+          
 
       }
 
@@ -75,21 +69,12 @@
     }
 
     $scope.submit=function () {
-       console.log("djfhdg",ViewModel.paths);
+       console.log(ViewModel.paths);
       if (ViewModel.paths && ViewModel.paths.length > 0) {
 
         ViewModel.paths.forEach(function(path) {
-          if (path.$$isEdit) {
-            ViewModel.photoDetail.$$isEdit = true;
-            ViewModel.photoDetail.path = path.path;
-          } else {
-            if (ViewModel.isForEdit) {
-              ViewModel.photoDetail.path = path.path;
-            } else {
-              ViewModel.photoDetail.path.push(path.path);
-            }
-
-          }
+              ViewModel.photoDetail.path.push(path);
+          
         });
 
         // if (ViewModel.isDBEdit && ViewModel.paths[0].sm != undefined) {
