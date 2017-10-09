@@ -29,12 +29,12 @@ function DbService() {
     export_data.path.forEach(function(data,index){
       var t={
         index:index,
-        path:data
+        path:data.path,
+        name:data.name
       };
       dataArray.push(t);
     });
-    console.log(dataArray);
-    var export_fields = ['index','path'];
+    var export_fields = ['index','name','path'];
     var randomString = function (length) {
       var text = "";
       var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -92,7 +92,6 @@ function DbService() {
                               console.log(err);
                           }
                           else {
-                              console.log(data);
                               var murl = "https://s3.ap-south-1.amazonaws.com/raghu-upload/uploads/" + file_name;
                               try {
                                   //--sendNotification
@@ -130,7 +129,9 @@ function DbService() {
         deferred.reject(err);
       }
       var imgpath = path.parse(files[0].fd);
-      deferred.resolve('uploads/' + imgpath.base);
+      var image={ path:'uploads/' + imgpath.base,
+       name:files[0].filename}
+      deferred.resolve(image);
     });
     return deferred.promise;
   }
@@ -142,15 +143,15 @@ function DbService() {
       for (var i = 0; i < details.path.length; i++) {
 
           var phtPath = {};
-          uploadImageData.filePath = path.resolve(sails.config.appPath, '.tmp/public') + '/' + details.path[i];
+          uploadImageData.filePath = path.resolve(sails.config.appPath, '.tmp/public') + '/' + details.path[i].path ;
           uploadImageData.modelName = 'images';
           // var fileName = (details.photos[i].path).split('/');
-          var fileName = path.parse(details.path[i]);
+          var fileName = path.parse(details.path[i].path);
           // uploadImageData.uploadFileName = fileName[fileName.length - 1];
           uploadImageData.uploadFileName = fileName.base;
           phtPath = 'https://s3.ap-south-1.amazonaws.com/raghu-upload/images/'+uploadImageData.uploadFileName;
 
-          details.path[i] = phtPath;
+          details.path[i].path = phtPath;
 
           // console.log(details.photos);
 
@@ -175,7 +176,6 @@ function DbService() {
 
   }
  function _uploadImagesToAWS(data) {
-  console.log("jhgd",data);
     var data = data;
     var successCount = 0;
     var failureCount = 0;
@@ -214,7 +214,6 @@ function DbService() {
     return;
   }
   function _uploadDocToAWS(data) {
-  console.log("jhgd",data);
     var data = data;
     var successCount = 0;
     var failureCount = 0;
@@ -233,12 +232,9 @@ function DbService() {
               Body: buf,
               ContentType: mime.getType(data.name)
             };
-            console.log("documents",data1);
             s3bucket.putObject(data1, function(err, rese) {
-              console.log(rese);
               if (!err) {
                 successCount++;
-                console.log(successCount,"fdfd");
               }
               if (err) {
                 console.log(err);
