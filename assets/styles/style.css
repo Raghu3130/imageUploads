@@ -2,7 +2,8 @@
   background-color: #87b862;
 }
 .login-bg {
-  background-color: #d0f6b3;
+  /*background-color: #d0f6b3;*/
+  background-image: url('../images/Green-Wallpaper-9.jpg');
 }
 .abs {
   position: absolute;
@@ -10,4 +11,16 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+.login-btn {
+  background-color: #c1e543;
+  font-size: 24px;
+  border-radius: 3px;
+}
+.input_font {
+    font-size: 20px;
+    border-radius: 3px;
+}
+.white {
+  color: white;
 }

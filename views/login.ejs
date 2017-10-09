@@ -1,36 +1,30 @@
-<div class="abs login-bg">
-<div class="row">
-  <div class="col col-10 col-sm-4 login-box text-center mx-auto">
-  <div class="row">
-    <div class="col col-12 col-sm-12 mx-auto text-center  pt-5">
-      <div class="display-4">
-        Please Login !!!
+<div class="abs login-bg container-fluid h-100 d-flex justify-content-center align-items-center">
+  <div class="h-75">
+    <div class="row mx-0">
+      <div class="col col-12 col-sm-12 mx-auto text-center pt-5">
+        <div class="display-4 px-5 white ">
+          Please Login !!!
+        </div>
       </div>
     </div>
+    <form method="POST" action='/signin'>
+      <div class="row pt-5 mx-0">
+        <!-- <label for="inputEmail3" class="col-sm-9 col-form-label">Email</label> -->
+        <div class="col col-12 col-sm-8 mx-auto text-center  my-auto">
+          <input type="text" class="form-control input_font" id="inputEmail3" placeholder="Email" name="username">
+        </div>
+      </div>
+      <div class="row pt-5 mx-0">
+        <!-- <label for="inputEmail3" class="col-sm-9 col-form-label"> Password</label> -->
+        <div class="col col-12 col-sm-8 mx-auto text-center">
+          <input type="password" class="form-control input_font" id="inputPassword3" placeholder="Password" name="password">
+        </div>
+      </div>
+      <div class="row pt-5 mx-0">
+        <div class="col col-12 col-sm-8 mx-auto text-center">
+          <button class="btn w-100 login-btn d-flex justify-content-center align-items-center h-100" type='submit'> Login</button>
+        </div>
+      </div>
+    </form>
   </div>
-  <form method="POST" action='/signin'>
-    <div class="row pt-5">
-      <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
-      <div class="col col-12 col-sm-9 mx-auto text-center login-box my-auto">
-        <!-- <input type="text" name="username" > -->
-        <input type="text" class="form-control" id="inputEmail3" placeholder="Email">
-      </div>
-    </div>
-    <div class="row pt-5">
-      <label for="inputEmail3" class="col-sm-3 col-form-label"> Password</label>
-      <div class="col col-12 col-sm-9 mx-auto text-center">
-        <!-- <input type="password" name="password" > -->
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-      </div>
-    </div>
-    <div class="row pt-5">
-      <div class="col col-12 col-sm-12 mx-auto text-center">
-        <button type='submit'>Login</button>
-      </div>
-    </div>
-  </form>
-    </div>
-  </div>
-  </div>
-</div>
 </div>
