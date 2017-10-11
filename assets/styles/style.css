@@ -24,3 +24,21 @@
 .white {
   color: white;
 }
+.custom-file-upload {
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #403f3f;
+  color: white;
+  border-radius: 0.25rem;
+  border: none;
+  margin-bottom: 0rem;
+}
+input[type="file"] {
+    display: none;
+}
+.logout-btn {
+  border: none;
+}
+.button_wd {
+  width : 150px;
+}

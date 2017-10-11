@@ -1,33 +1,34 @@
+<div class="abs login-bg container-fluid h-100 d-flex justify-content-center align-items-center">
 
- <form method="GET" action="/logout">
-   <button type="submit">Logout </button>
- </form>
-  
   <div class="container" ng-controller="imageUploadController">
       <div class="row">
         <div class="col col-12 col-8 mx-auto ">
-          <div class="jumbotron">
+          <div class="jumbotron px-0 login-box">
+            <form method="GET" action="/logout">
+              <div class="text-right">
+                <button class="btn-lg btn-warning logout-btn" type="submit">Logout </button>
+              </div>
+            </form>
             <div class="my-4 d-flex justify-content-center">
-              <h1 class="display-3">Hello, world!</h1>
+              <h1 class="display-4">Upload multiple Images !!! </h1>
             </div>
             <form>
               <div class="form-group">
-                <div class="my-4 d-flex justify-content-center">
-                  <button ngf-select="startUpload($files)" ng-model='ViewModel.photo' multiple accept="image/*" >Select Files</button>
+                <div class="my-4 d-flex justify-content-center col col-12">
+                  <label for="file-upload" class="custom-file-upload btn-lg button_wd mx-3"> Choose file </label>
+                  <input id="file-upload" type="file" name="file" ngf-select="startUpload($files)" ng-model='ViewModel.photo' multiple accept="image/*">
+                  <a class="btn btn-primary btn-lg button_wd" href="#" ng-click='submit()' role="button">Upload</a>
+                  <button type="submit" ng-if="url" ng-click="csvSubmit(url);" class="btn btn-primary btn-lg button_wd mx-3"  role="button">Download</button>
+                  <button type="submit" ng-if="!url" disabled="" class="btn btn-primary btn-lg button_wd mx-3"  role="button">Download</button>
                 </div>
-                <div class="my-4 d-flex justify-content-center">
+                <div class="my-4 d-flex justify-content-center col col-8">
                   <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" ng-click='submit()' role="button">Upload</a>
-                    
-                    <button type="submit" ng-if="url" ng-click="csvSubmit(url);" class="btn btn-primary btn-lg"  role="button">Download</button>
-                    <button type="submit" ng-if="!url" disabled="" class="btn btn-primary btn-lg"  role="button">Download</button>
-                    
                   </p>
                 </div>
               </div>
             </form>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
-
+</div>
