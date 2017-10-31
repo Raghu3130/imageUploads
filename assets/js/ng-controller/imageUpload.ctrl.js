@@ -39,11 +39,11 @@
     // }
 
     function startUpload(photos) {
-      Viewmodel.photosUpload=photos;
+      ViewModel.photosUpload=photos;
       ViewModel.photoUploadInProgress = true;
       var tran={};
 
-      for (var i = 0; i < Viewmodel.photosUpload.length; i++) {
+      for (var i = 0; i < ViewModel.photosUpload.length; i++) {
         Upload.upload({
             url: 'https://image-mandar.herokuapp.com/upload',
             data: { file: Viewmodel.photosUpload[i] }
@@ -106,7 +106,7 @@
     $scope.csvSubmit=function(url){
       window.location.href=url;
       $scope.active=true;
-      Viewmodel.photosUpload=[];
+      ViewModel.photosUpload=[];
     }
 }]);
 })(); // IIFE
