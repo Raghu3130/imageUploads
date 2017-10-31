@@ -17,10 +17,11 @@
                 <div class="my-4 d-flex justify-content-center col col-12">
                   <label for="file-upload" class="custom-file-upload btn-lg button_wd mx-3"> Choose file </label>
                   <input id="file-upload" type="file" name="file" ngf-select="startUpload($files)" ng-model='ViewModel.photo' multiple accept="image/*">
-                  <a class="btn btn-primary btn-lg button_wd" href="#" ng-click='submit()' role="button">Upload</a>
+                  <button class="btn btn-primary btn-lg button_wd" ng-disabled="!active"  href="#" ng-click='submit()' role="button">Upload</button>
                   <button type="submit" ng-if="url" ng-click="csvSubmit(url);" class="btn btn-primary btn-lg button_wd mx-3"  role="button">Download</button>
                   <button type="submit" ng-if="!url" disabled="" class="btn btn-primary btn-lg button_wd mx-3"  role="button">Download</button>
                 </div>
+                <div class="loader" id="loader1"></div>
                 <div class="my-4 d-flex justify-content-center col col-8">
                   <p class="lead">
                   </p>

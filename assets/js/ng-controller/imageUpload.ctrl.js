@@ -3,6 +3,7 @@
     function ($scope,  $http, BASE_URL,widgetServices,Upload, $timeout) {
     console.log("imageUploadController");
     var ViewModel=this;
+    document.getElementById('loader1').style.display="none";
     ViewModel.photoSelected = false;
     ViewModel.photoUploadInProgress = false;
     ViewModel.closeDialog = closeDialog;
@@ -38,13 +39,12 @@
     // }
 
     function startUpload(photos) {
-      console.log(photos.length);
       ViewModel.photoUploadInProgress = true;
       var tran={};
 
       for (var i = 0; i < photos.length; i++) {
         Upload.upload({
-            url: 'https://image-mandar.herokuapp.com/upload',
+            url: 'https//image-mandar.herokuapp.com/upload',
             data: { file: photos[i] }
           })
           .then(function(res) {
@@ -83,13 +83,15 @@
         // } else {
         //   ViewModel.photoDetail.path = ViewModel.paths;
         // }
-
-        $http.post('https://image-mandar.herokuapp.com/submit',ViewModel.photoDetail).then(function(response){
+        document.getElementById('loader1').style.display="block";
+        $http.post('https//image-mandar.herokuapp.com//submit',ViewModel.photoDetail).then(function(response){
           $scope.url=response.data;
           if(response.data){
+            
             $scope.active=false;
             toastr.success("Download Excel");
           }
+          document.getElementById('loader1').style.display="none";
         }).catch(function(err){
 
          });
@@ -102,6 +104,7 @@
     }
     $scope.csvSubmit=function(url){
       window.location.href=url;
+      $scope.active=true;
     }
 }]);
 })(); // IIFE
