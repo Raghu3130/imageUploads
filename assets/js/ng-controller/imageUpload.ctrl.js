@@ -107,6 +107,8 @@
       window.location.href=url;
       $scope.active=true;
       ViewModel.photosUpload=[];
+      ViewModel.photoDetail=[];
+      ViewModel.paths=[];
     }
 }]);
 })(); // IIFE
