@@ -108,6 +108,7 @@
       $scope.active=true;
       ViewModel.photosUpload=[];
       ViewModel.photoDetail=[];
+      $scope.url=false;
       ViewModel.paths=[];
     }
 }]);
