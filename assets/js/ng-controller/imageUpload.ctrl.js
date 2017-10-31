@@ -44,7 +44,7 @@
 
       for (var i = 0; i < photos.length; i++) {
         Upload.upload({
-            url: 'https//image-mandar.herokuapp.com/upload',
+            url: 'https://image-mandar.herokuapp.com/upload',
             data: { file: photos[i] }
           })
           .then(function(res) {
@@ -84,7 +84,7 @@
         //   ViewModel.photoDetail.path = ViewModel.paths;
         // }
         document.getElementById('loader1').style.display="block";
-        $http.post('https//image-mandar.herokuapp.com//submit',ViewModel.photoDetail).then(function(response){
+        $http.post('https://image-mandar.herokuapp.com/submit',ViewModel.photoDetail).then(function(response){
           $scope.url=response.data;
           if(response.data){
             
