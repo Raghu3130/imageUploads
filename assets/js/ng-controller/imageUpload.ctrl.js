@@ -46,7 +46,7 @@
       for (var i = 0; i < ViewModel.photosUpload.length; i++) {
         Upload.upload({
             url: 'https://image-mandar.herokuapp.com/upload',
-            data: { file: Viewmodel.photosUpload[i] }
+            data: { file: ViewModel.photosUpload[i] }
           })
           .then(function(res) {
             console.log(res);
