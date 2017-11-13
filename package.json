@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "async": "^2.6.0",
     "aws-sdk": "^2.115.0",
     "ejs": "2.3.4",
     "gm": "^1.23.0",

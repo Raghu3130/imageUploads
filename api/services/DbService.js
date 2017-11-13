@@ -4,10 +4,11 @@ var path = require('path');
 var AWS = require('aws-sdk');
 var mime = require('mime');
 var json2csv = require('json2csv');
+var async = require('async');
 var fs = require('fs');
  var moment = require('moment');
 AWS.config.loadFromPath('config/aws_config.json');
-var s3bucket = new AWS.S3({ params: { Bucket: 'images' } });
+var s3bucket = new AWS.S3({ params: { Bucket: 'hussain' } });
 
 
 
@@ -140,18 +141,18 @@ function DbService() {
     var uploadImageData = {};
     // photos
     if (details && details.path.length) {
-      for (var i = 0; i < details.path.length; i++) {
+      async.eachLimit(arr,5,function(row,callback){
 
           var phtPath = {};
-          uploadImageData.filePath = path.resolve(sails.config.appPath, '.tmp/public') + '/' + details.path[i].path ;
+          uploadImageData.filePath = path.resolve(sails.config.appPath, '.tmp/public') + '/' + row.path ;
           uploadImageData.modelName = 'images';
           // var fileName = (details.photos[i].path).split('/');
-          var fileName = path.parse(details.path[i].path);
+          var fileName = path.parse(row.path);
           // uploadImageData.uploadFileName = fileName[fileName.length - 1];
           uploadImageData.uploadFileName = fileName.base;
           phtPath = 'https://s3.ap-south-1.amazonaws.com/raghu-upload/images/'+uploadImageData.uploadFileName;
 
-          details.path[i].path = phtPath;
+         row.path = phtPath;
 
           // console.log(details.photos);
 
