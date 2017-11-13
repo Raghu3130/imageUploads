@@ -14,7 +14,7 @@ module.exports = {
 
     DbService.uploadImages(file)
       .then(function(response) {
-        console.log(response);
+        console.log("dfdfd",response);
         return res.ok(ResponseService._customResponse(true, 'Files saved successfully', response, response.length));
       })
       .catch(function(err) {
@@ -39,6 +39,7 @@ module.exports = {
   submit:function(req,res){
     var allParams=req.allParams();
     DbService.savePhotosToAws(allParams).then(function(response){
+      console.log("Dfdf",response);
       return DbService.jsontoExcel(response);
     }).then(function(response){
       res.send(response);

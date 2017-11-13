@@ -7,7 +7,7 @@ var json2csv = require('json2csv');
 var fs = require('fs');
  var moment = require('moment');
 AWS.config.loadFromPath('config/aws_config.json');
-var s3bucket = new AWS.S3({ params: { Bucket: 'images' } });
+var s3bucket = new AWS.S3({ params: { Bucket: 'hussain' } });
 
 
 
@@ -26,7 +26,7 @@ function DbService() {
   function jsontoExcel(export_data) {
     var deferred = q.defer();
     var dataArray=[];
-    export_data.path.forEach(function(data,index){
+    export_data.forEach(function(data,index){
       var t={
         index:index,
         path:data.path,
@@ -136,47 +136,71 @@ function DbService() {
     return deferred.promise;
   }
     function _savePhotosToAws(details) {
+      console.log("hey");
     var deferred = q.defer();
-    var uploadImageData = {};
+    var path=[];
     // photos
     if (details && details.path.length) {
-      for (var i = 0; i < details.path.length; i++) {
 
-          var phtPath = {};
-          uploadImageData.filePath = path.resolve(sails.config.appPath, '.tmp/public') + '/' + details.path[i].path ;
+      async.eachLimit(details.path,5, function(row, callback) {
+
+
+      getData(row)
+        .then(function(aresp) {
+            callback();
+            path.push(aresp);
+            
+            console.log("[getData] Success");
+        })
+        .catch(function(err) {
+          console.log("[getData] Error: ", err);
+            callback();
+
+        });
+    }, function(err) {
+      if (err)  {
+        console.log("Error: ", err);
+      } else {
+        deferred.resolve(path);
+        //All Records proceeds.
+      }
+    });
+    }
+
+    // console.log("ENd AWS");
+    return deferred.promise
+  }
+  function getData(row)
+      {
+        var uploadImageData = {};
+        var dataPromise = q.defer();
+         var phtPath = {};
+          uploadImageData.filePath = path.resolve(sails.config.appPath, '.tmp/public') + '/' + row.path ;
           uploadImageData.modelName = 'images';
           // var fileName = (details.photos[i].path).split('/');
-          var fileName = path.parse(details.path[i].path);
+          var fileName = path.parse(row.path);
           // uploadImageData.uploadFileName = fileName[fileName.length - 1];
           uploadImageData.uploadFileName = fileName.base;
           phtPath = 'https://s3.ap-south-1.amazonaws.com/raghu-upload/images/'+uploadImageData.uploadFileName;
-
-          details.path[i].path = phtPath;
-
+          row.path = phtPath;
           // console.log(details.photos);
-
           // save photos to aws
-          _uploadImagesToAWS(uploadImageData);
+          _uploadImagesToAWS(uploadImageData).then(function(response) {
+            console.log("proceeds...");
+                dataPromise.resolve(row);
+          }).catch(function(err) {
+            callback();
+          });
 
           // blank tmp objects
           uploadImageData = {};
-          phtPath = {};
-        
+          phtPath = {}; 
+
+        return dataPromise.promise;
       }
-
-      // console.log("final photo array: ", details.photo);
-    }
-
-
-
-    // console.log("ENd AWS");
-    deferred.resolve(details);
-
-    return deferred.promise;
-
-  }
  function _uploadImagesToAWS(data) {
     var data = data;
+    var deferred=q.defer();
     var successCount = 0;
     var failureCount = 0;
     
@@ -188,7 +212,7 @@ function DbService() {
           });
           stdout.on('end', function(res) {
             var data1 = {
-              Bucket: "raghu-upload",
+              Bucket: "link2exel",
               Key:data.modelName+'/'+data.uploadFileName,
               ACL: 'public-read',
               Body: buf,
@@ -209,11 +233,12 @@ function DbService() {
           });
         });
        
-    
-    // return deferred.promise;
-    return;
+    deferred.resolve(true);
+     return deferred.promise;
+    //return;
   }
   function _uploadDocToAWS(data) {
+    var deferred=q.defer();
     var data = data;
     var successCount = 0;
     var failureCount = 0;
@@ -226,7 +251,7 @@ function DbService() {
           });
           stdout.on('end', function(res) {
             var data1 = {
-              Bucket: "raghu-upload",
+              Bucket: "link2exel",
               Key:"uploads/"+data.name,
               ACL: 'public-read',
               Body: buf,
@@ -246,9 +271,9 @@ function DbService() {
           });
         });
        
-    
+    deferred.resolve(true);
     // return deferred.promise;
-    return;
+    return deferred.promise;
   }
 
 

@@ -9,6 +9,8 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.globals.html
  */
 module.exports.globals = {
+   //serverURL: "https://image-mandar.herokuapp.com/"
+   serverURL: "http://localhost:1337/"
 
   /****************************************************************************
   *                                                                           *
